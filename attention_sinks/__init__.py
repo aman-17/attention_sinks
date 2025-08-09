@@ -38,4 +38,6 @@ from .models import (
     MptForTokenClassification,
     MptModel,
     MptPreTrainedModel,
+    Olmo2ForCausalLM,
+    Olmo2Model
 )
