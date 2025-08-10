@@ -25,7 +25,7 @@ maintainers = [
 ]
 dependencies = [
     "torch",
-    "transformers==4.34.0",
+    "transformers",
     "tokenizers>=0.14,<0.15",
 ]
 dynamic = ["version"]

@@ -143,7 +143,13 @@ class InjectAttentionSinksMixin:
             # Wrap the forward by overriding the past_key_values using the cache
             def wrapped_forward(self, *args, **kwargs):
                 outputs = old_forward(*args, **kwargs)
-                outputs.past_key_values = self.attention_sink_kv_cache(outputs.past_key_values)
+                # For OLMo2, skip attention sink cache conversion to preserve Cache objects
+                if hasattr(outputs.past_key_values, 'get_mask_sizes'):
+                    # This is a Cache object, don't convert to tuple
+                    pass
+                else:
+                    # This is a tuple-based past_key_values, apply attention sink cache
+                    outputs.past_key_values = self.attention_sink_kv_cache(outputs.past_key_values)
                 return outputs
 
             module.forward = types.MethodType(wrapped_forward, module)
